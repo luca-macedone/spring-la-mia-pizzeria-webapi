@@ -16,8 +16,10 @@
                         placeholder="Margherita">
                     <button type="submit" class="btn btn-dark rounded-0">Search</button>
                 </form>
-                <a href="/create" type="button" class="btn btn-dark rounded-0" sec:authorize="hasAuthority('ADMIN')">Create a new pizza</a>
-                <a href="/ingredients" type="button" class="btn btn-dark rounded-0" sec:authorize="hasAuthority('ADMIN')">Ingredients List</a>
+                <a href="/create" type="button" class="btn btn-dark rounded-0"
+                    sec:authorize="hasAuthority('ADMIN')">Create a new pizza</a>
+                <a href="/ingredients" type="button" class="btn btn-dark rounded-0"
+                    sec:authorize="hasAuthority('ADMIN')">Ingredients List</a>
             </div>
         </div>
         <div th:if="${pizzas.size()} > 0" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
@@ -33,12 +35,14 @@
                                 <a type="button" class="btn btn-outline-dark rounded-0"
                                     th:href="@{/{id}(id=${pizza.getId()})}">Show</a>
                                 <a type="button" th:href="@{/update/{id}(id=${pizza.getId()})}"
-                                    class="btn btn-outline-dark rounded-0" sec:authorize="hasAuthority('ADMIN')">Edit</a>
-                                <form th:action="@{/delete/{id}(id=*{id})}" method="post" sec:authorize="hasAuthority('ADMIN')">
+                                    class="btn btn-outline-dark rounded-0"
+                                    sec:authorize="hasAuthority('ADMIN')">Edit</a>
+                                <form th:action="@{/delete/{id}(id=*{id})}" method="post"
+                                    sec:authorize="hasAuthority('ADMIN')">
                                     <button type="submit" class="btn btn-outline-danger rounded-0">Delete</button>
-                                    <input type="hidden" 
+                                    <!--/* CSRF-hidden-input <input type="hidden" 
 									th:name="${_csrf.parameterName}" 
-									th:value="${_csrf.token}" />
+									th:value="${_csrf.token}" /> */-->
                                 </form>
                             </div>
                         </div>

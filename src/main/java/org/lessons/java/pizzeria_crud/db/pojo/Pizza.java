@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
+import org.lessons.java.pizzeria_crud.api.dto.PizzaDTO;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,9 +41,11 @@ public class Pizza {
 	private float price;
 	
 	@OneToMany(mappedBy = "pizza")
+	@JsonManagedReference
 	private List<Promo> promos;
 	
 	@ManyToMany
+	@JsonManagedReference
 	private List<Ingredient> ingredients;
 	
 	public Pizza() {}
@@ -50,6 +55,12 @@ public class Pizza {
 		setPicture(picture);
 		setPrice(price);
 		setIngredients(Arrays.asList(ingredients));
+	}
+	public Pizza(PizzaDTO pizza) {
+		setName(pizza.getName());
+		setDescription(pizza.getDescription());
+		setPicture(pizza.getPicture());
+		setPrice(pizza.getPrice());
 	}
 	
 	public int getId() {
@@ -118,6 +129,13 @@ public class Pizza {
 	
 	public void addIngredients(Ingredient... ingredients) {
 		getIngredients().addAll(Arrays.asList(ingredients));
+	}
+	
+	public void fillFromPizzaDTO(PizzaDTO pizzaDTO) {
+		setName(pizzaDTO.getName());
+		setDescription(pizzaDTO.getDescription());
+		setPicture(pizzaDTO.getPicture());
+		setPrice(pizzaDTO.getPrice());
 	}
 	
 	@Override

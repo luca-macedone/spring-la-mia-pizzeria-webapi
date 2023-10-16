@@ -34,9 +34,11 @@
                                 <form th:action="@{/ingredients/delete/{ingredient_id}(ingredient_id = *{id})}"
                                     method="post">
                                     <button type="submit" class="btn btn-outline-danger rounded-0">Delete</button>
+                                    <!--/*
                                     <input type="hidden" 
 									th:name="${_csrf.parameterName}" 
 									th:value="${_csrf.token}" />
+                                    */-->
                                 </form>
                             </div>
                         </div>

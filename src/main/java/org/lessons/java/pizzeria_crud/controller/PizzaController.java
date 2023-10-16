@@ -1,6 +1,8 @@
 package org.lessons.java.pizzeria_crud.controller;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.lessons.java.pizzeria_crud.db.pojo.Pizza;
 import org.lessons.java.pizzeria_crud.db.serv.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +35,14 @@ public class PizzaController {
 	@GetMapping("/{id}")
 	public String showPizza(Model model, @PathVariable int id) {
 		
-		Pizza pizza = pizzaService.findById(id);
-		model.addAttribute("pizza",pizza);
+		Optional<Pizza> pizzaOpt = pizzaService.findById(id);
+		if(!pizzaOpt.isEmpty()) {
+			Pizza pizza = pizzaOpt.get();
+			model.addAttribute("pizza",pizza);
+			return "show";
+		}
 		
-		return "show";
+		return "redirect:/";
 	}
 	
 	@GetMapping("/create")
@@ -64,11 +70,15 @@ public class PizzaController {
 	
 	@GetMapping("/update/{id}")
 	public String editPizza(Model model, @PathVariable int id) {
-		Pizza pizza = pizzaService.findById(id);
-		
-		model.addAttribute("pizza", pizza);
-		
-		return "create";
+		Optional<Pizza> pizzaOpt = pizzaService.findById(id);
+		if(!pizzaOpt.isEmpty()) {
+			Pizza pizza = pizzaOpt.get();
+			
+			model.addAttribute("pizza", pizza);
+			
+			return "create";
+		}
+		return "redirect:/";
 	}
 	
 	@PostMapping("/update/{id}")
@@ -90,8 +100,11 @@ public class PizzaController {
 	
 	@PostMapping("/delete/{id}")
 	public String delete(Model model, @PathVariable int id) {
-		Pizza pizza = pizzaService.findById(id);
-		pizzaService.deletePizza(pizza);
+		Optional<Pizza> pizzaOpt = pizzaService.findById(id);
+		if(!pizzaOpt.isEmpty()) {
+			Pizza pizza = pizzaOpt.get();
+			pizzaService.deletePizza(pizza);
+		}
 		return "redirect:/";
 	}
 }

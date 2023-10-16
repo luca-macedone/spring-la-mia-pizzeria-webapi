@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +31,7 @@ public class Ingredient {
 	private String description;
 	
 	@ManyToMany(mappedBy = "ingredients")
+	@JsonBackReference
 	private List<Pizza> pizzas;
 	
 	public Ingredient() {}

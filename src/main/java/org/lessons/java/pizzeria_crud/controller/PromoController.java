@@ -1,5 +1,7 @@
 package org.lessons.java.pizzeria_crud.controller;
 
+import java.util.Optional;
+
 import org.lessons.java.pizzeria_crud.db.pojo.Pizza;
 import org.lessons.java.pizzeria_crud.db.pojo.Promo;
 import org.lessons.java.pizzeria_crud.db.serv.PizzaService;
@@ -25,22 +27,33 @@ public class PromoController {
 	
 	@GetMapping("/promo/{pizza}")
 	public String createPromo(Model model, @PathVariable("pizza") int id) {
-		Pizza pizza = pizzaService.findById(id);
+		
 		Promo promo = new Promo();
+		Optional<Pizza> pizzaOpt = pizzaService.findById(id);
 		
-		model.addAttribute("promo", promo);
-		model.addAttribute("pizza",pizza);
+		if(!pizzaOpt.isEmpty()) {
+			Pizza pizza = pizzaOpt.get();
+			model.addAttribute("promo", promo);
+			model.addAttribute("pizza", pizza);
+			
+			return "promo_create";
+		}
 		
-		return "promo_create";
+		return "redirect:/";
 	}
 	
 	@PostMapping("/promo/{pizza}")
 	public String storePromo(Model model, @PathVariable("pizza") int id, @Valid @ModelAttribute Promo promo, BindingResult bindingResult) {
-		Pizza pizza = pizzaService.findById(id);
-		promo.setPizza(pizza);
-		promoService.save(promo);
-		
-		return "redirect:/" + id;
+		Optional<Pizza> pizzaOpt = pizzaService.findById(id);
+		if(!pizzaOpt.isEmpty()) {
+			Pizza pizza = pizzaOpt.get();
+			
+			promo.setPizza(pizza);
+			
+			promoService.save(promo);
+			return "redirect:/" + id;
+		}
+		return "redirect:/";
 	}
 	
 	@PostMapping("/promo/delete/{promo_id}")
