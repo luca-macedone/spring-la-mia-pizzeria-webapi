@@ -1,21 +1,16 @@
 # spring-la-mia-pizzeria-security
 
-#### (continuazione di `spring-la-mia-pizzeria-relazioni`)
+#### (continuazione di `spring-la-mia-pizzeria-webapi`)
 
 ## Todo
 
-Proteggiamo la nostra applicazione.
+Implementiamo quindi i metodi **CRUD** tramite `RestController`.
 
-Abbiamo sviluppato tutte le pagine per gestire la nostra pizzeria (elenco pizze, dettagli singola pizza, creazione, modifica, cancellazione, offerte speciali, ingredienti)…
+Diamo la possibilità di:
+- ottenere la **lista di pizze** (dobbiamo anche poterle **filtrare per titolo**)
+- leggere i **dettagli di una singola pizza**
+- creare una **nuova pizza**
+- **modificare una pizza esistente**
+- **cancellare una pizza**
 
-ma vogliamo che chiunque possa effettuare queste operazioni?
-Sicuramente no!
-
-Quindi inseriamo l’**autenticazione** in modo che solo gli **utenti registrati** possano accedere a queste pagine.
-
-Creiamo le `entity` necessarie e popoliamo a mano i dati degli utenti nel database tramite `CommandLineRunner`.
-
-Sono previsti due ruoli: `USER` e `ADMIN`
-
-Gli utenti con ruolo `USER` possono accedere solo alla **pagina index** e a **quella di dettaglio**.
-Gli utenti `ADMIN` possono **fare tutto**.
+Queste operazioni devono poter essere eseguite tramite `PostMan`, non preoccupiamoci quindi della parte di **front-end** per ora.
