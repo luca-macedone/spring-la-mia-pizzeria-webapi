@@ -1,6 +1,6 @@
-# spring-la-mia-pizzeria-security
+# spring-la-mia-pizzeria-webapi
 
-#### (continuazione di `spring-la-mia-pizzeria-webapi`)
+#### (continuazione di `spring-la-mia-pizzeria-security`)
 
 ## Todo
 
