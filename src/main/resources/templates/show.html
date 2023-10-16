@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{frags :: head('Pizza details')}"></head>
+
+<body th:object="${pizza}" class="bg-light">
+    <div class="container mb-5">
+        <div th:replace="~{frags :: logo_navbar}"></div>
+        <div class="row mb-4 d-flex align-items-center justify-content-between">
+            <div class="col">
+                <h1>Details Of...</h1>
+            </div>
+            <div class="col d-flex justify-content-end">
+                <a href="/" type="button" class="btn btn-dark rounded-0">Menù</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-flex justify-content-between align-items-start">
+                <div
+                    class="h-100 w-100 p-5 shadow bg-white d-flex flex-column justify-content-start align-items-start gap-3">
+                    <div class="w-100 d-flex align-items-center justify-content-between">
+                        <h2 class="">[[${pizza.name}]]</h2>
+                        <small class="">Price: <span class="fs-3">[[${pizza.price}]]</span>€</small>
+                    </div>
+                    <p class="">[[${pizza.description}]]</p>
+                    <div class="" th:if="*{ingredients.size()} > 0">
+                        <h5>Ingredients</h5>
+                        <ul class="list-unstyled d-flex align-items-center justify-content-start gap-2 flex-wrap">
+                            <li class="text-italic border border-dark p-2" th:each="ingredient : *{ingredients}"
+                                th:object="${ingredient}">
+                                [[*{name}]]</li>
+                        </ul>
+                    </div>
+                </div>
+                <img class="object-fit-cover rounded-0 shadow" height="400" width="400" th:src="${pizza.picture}">
+            </div>
+            <div class="mt-3">
+                <ul th:if="*{promos.size()} > 0" class="list-group border-0 rounded-0 shadow">
+                    <li class="list-group-item rounded-0 border-0 border-bottom px-5 py-3" th:each="promo : *{promos}"
+                        th:object="${promo}">
+                        <div class="fw-semibold fs-4 text-uppercase">
+                            [[*{title}]]
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center justify-content-between w-100">
+                                <div>
+                                    <span class="fw-semibold">
+                                        From:
+                                    </span>
+                                    <span class="fs-5">
+                                        [[*{formattedDate(starting_date)}]]
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="fw-semibold">
+                                        To:
+                                    </span>
+                                    <span class="fs-5">
+                                        [[*{formattedDate(ending_date)}]]
+                                    </span>
+                                </div>
+                                <div class="d-flex aling-items-center gap-2">
+                                    <a type="button" class="btn btn-outline-dark rounded-0"
+                                        th:href="@{/promo/edit/{id}(id = *{id})}" sec:authorize="hasAnyAuthority('ADMIN')">Edit</a>
+                                    <form th:action="@{/promo/delete/{promo_id}(promo_id=*{id})}" method="post" sec:authorize="hasAnyAuthority('ADMIN')">
+                                        <button type="submit" class="btn btn-outline-danger rounded-0">Delete</button>
+                                        <input type="hidden" 
+											th:name="${_csrf.parameterName}" 
+											th:value="${_csrf.token}" />
+                                    </form>
+                                </div>
+                            </div>
+                    </li>
+                </ul>
+                <a type="button" class="mt-3 btn btn-dark rounded-0 shadow" th:href="@{/promo/{pizza}(pizza=*{id})}" sec:authorize="hasAnyAuthority('ADMIN')">
+                    Create a new promo
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

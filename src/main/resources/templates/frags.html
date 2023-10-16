@@ -1,0 +1,29 @@
+<head th:fragment="head(title)">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <title>[[${title}]]</title>
+</head>
+
+<div th:fragment="logo_navbar" class="row my-5">
+	<div class="col w-100 d-flex justify-content-between align-items-center">	
+		<a href="/">
+	    		<img th:src="@{'/img/logo.svg'}" height="80" class="align-self-start shadow" alt="logo">
+		</a>		
+		
+		<div th:replace="~{frags :: login}"></div>	
+	</div>
+</div>
+
+<div th:fragment="login" class="d-flex align-items-center gap-2">
+	<span sec:authorize="hasAnyAuthority('USER', 'ADMIN')" class="d-flex align-items-center">
+		<span sec:authentication="name" type="button" class="fw-semibold btn btn-dark rounded-0 border-end-0 text-uppercase"></span>
+		
+		<a href="/logout" type="button" class="btn btn-outline-dark rounded-0 text-uppercase">logout</a>
+	</span>
+	<span sec:authorize="!hasAnyAuthority('USER', 'ADMIN')">
+		<a href="/login" type="button" class="btn btn-outline-dark rounded-0 text-uppercase">LOGIN</a> 
+	</span>
+</div>

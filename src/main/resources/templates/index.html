@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{frags :: head('Menù')}"></head>
+
+<body class="bg-light">
+    <div class="container mb-5">
+        <div th:replace="~{frags :: logo_navbar}"></div>
+        <div class="row flex-column flex-md-row mb-4">
+            <div class="col">
+                <h1 class="text-decoration-none text-dark">Menù</h1>
+            </div>
+            <div class="col w-100 d-flex align-items-center justify-content-end gap-3">
+                <form class="d-flex align-items-center">
+                    <input type="text" class="form-control rounded-0" name="name" id="name" aria-describedby="helpId"
+                        placeholder="Margherita">
+                    <button type="submit" class="btn btn-dark rounded-0">Search</button>
+                </form>
+                <a href="/create" type="button" class="btn btn-dark rounded-0" sec:authorize="hasAuthority('ADMIN')">Create a new pizza</a>
+                <a href="/ingredients" type="button" class="btn btn-dark rounded-0" sec:authorize="hasAuthority('ADMIN')">Ingredients List</a>
+            </div>
+        </div>
+        <div th:if="${pizzas.size()} > 0" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+            <div class="col" th:each="pizza : ${pizzas}" th:object="${pizza}">
+                <div class="h-100 card text-start text-decoration-none rounded-0 border-0 shadow product_card">
+                    <img class="card-img-top rounded-0 object-fit-cover" height="250" th:src="${pizza.picture}">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <h4 class="card-title">[[${pizza.name}]]</h4>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <small
+                                class="card-footer bg-transparent border border-dark rounded-0">[[${pizza.price}]]€</small>
+                            <div class="d-flex align-items-center justify-content-end gap-2">
+                                <a type="button" class="btn btn-outline-dark rounded-0"
+                                    th:href="@{/{id}(id=${pizza.getId()})}">Show</a>
+                                <a type="button" th:href="@{/update/{id}(id=${pizza.getId()})}"
+                                    class="btn btn-outline-dark rounded-0" sec:authorize="hasAuthority('ADMIN')">Edit</a>
+                                <form th:action="@{/delete/{id}(id=*{id})}" method="post" sec:authorize="hasAuthority('ADMIN')">
+                                    <button type="submit" class="btn btn-outline-danger rounded-0">Delete</button>
+                                    <input type="hidden" 
+									th:name="${_csrf.parameterName}" 
+									th:value="${_csrf.token}" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row p-5 bg-white shadow" th:if="${pizzas.size() == 0}">
+            <h3 class="col fw-semibold w-100 text-center">No pizzas Yet!</h3>
+        </div>
+    </div>
+</body>
+
+</html>
